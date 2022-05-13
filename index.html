@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>HTML CANVAS GAME BOI</title>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+div#mainBox{
+margin:0;padding:0;
+width:100vw;height:100vh;
+background-color:#0D0C1E;
+}
+canvas{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+outline:2px black solid;
+}
+
+</style>
+</head>
+<body>
+<!-- <input type="color"/> -->
+<div id="mainBox">
+<canvas></canvas>
+</div>
+<script>
+let cvs=document.querySelector('canvas');
+let ctx = cvs.getContext('2d');
+let screenSize=300;
+let mainW=innerWidth;
+let mainH=innerHeight;
+let hue=0;
+
+cvs.width=mainW;
+cvs.height=mainH;
+
+let arrows=[];
+
+function rint(min,max){
+return Math.floor(Math.random() * (max-min) + min)
+}
+
+
+
+
+
+
+
+class Arrow{
+constructor(x,y){
+this.x=x
+this.y=y
+this.color=`hsl(${hue},100%,50%,0.09)`
+this.size=rint(2,10)
+this.speed={x:Math.random() * 3 - 1.5 ,y:Math.random() * 3 - 1.5}
+}
+draw(){
+ctx.beginPath();
+ctx.fillStyle=this.color;
+ctx.arc(this.x,this.y,this.size,45,Math.PI * 2,false)
+ctx.fill()
+ctx.closePath();
+}
+update(){
+this.draw()
+this.x += this.speed.x
+this.y += this.speed.y
+if(this.size > 0.2){
+this.size += -0.1;
+}
+hue+=0.2
+}
+}
+
+function arrowsAdds(x,y){
+for(let i=0;i<rint(10,99);i++){
+arrows.push(new Arrow(x,y))
+}
+}
+
+
+// click Event
+
+cvs.addEventListener('click', (e)=>{
+arrowsAdds(e.offsetX,e.offsetY)
+})
+
+// mouse Event
+
+cvs.addEventListener('mousemove', (e)=>{
+arrowsAdds(e.offsetX,e.offsetY)
+})
+
+
+function gameLoop(){
+requestAnimationFrame(gameLoop)
+ctx.fillStyle='rgba(0,0,0,0.03)'
+ctx.fillRect(0,0,cvs.width,cvs.height)
+//ctx.clearRect(0,0,cvs.width,cvs.height)
+arrows.forEach((arrow,index)=>{
+arrow.update()
+if(arrow.size <= 0.3){
+arrows.splice(index, 1)}
+})
+}gameLoop()
+
+</script>
+</body>
+</html>
