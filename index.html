@@ -45,13 +45,36 @@ cvs.height=mainH;
 
 let arrows=[];
 
-function rint(min,max){
+function r(min,max){
 return Math.floor(Math.random() * (max-min) + min)
 }
 
 
 
+class Ball{
+constructor(x,y){
+this.x=x
+this.y=y
+this.color='red'
+this.size=r(2,10)
+this.speed={x:Math.random() * 3 - 1.5 ,y:Math.random() * 3 - 1.5}
+}
+draw(){
 
+ctx.beginPath();
+ctx.fillStyle=this.color;
+ctx.arc(this.x,this.y,this.size,45,Math.PI * 2,false)
+ctx.fill()
+ctx.closePath();
+}
+
+update(){
+this.draw()
+}
+
+
+
+}
 
 
 
@@ -60,32 +83,54 @@ constructor(x,y){
 this.x=x
 this.y=y
 this.color=`hsl(${hue},100%,50%,0.09)`
-this.size=rint(2,10)
+this.size=r(2,10)
 this.speed={x:Math.random() * 3 - 1.5 ,y:Math.random() * 3 - 1.5}
 }
 draw(){
+
 ctx.beginPath();
 ctx.fillStyle=this.color;
 ctx.arc(this.x,this.y,this.size,45,Math.PI * 2,false)
 ctx.fill()
 ctx.closePath();
 }
+
 update(){
 this.draw()
+
 this.x += this.speed.x
 this.y += this.speed.y
+
+
 if(this.size > 0.2){
 this.size += -0.1;
 }
 hue+=0.2
 }
+
+
 }
 
 function arrowsAdds(x,y){
-for(let i=0;i<rint(10,99);i++){
+
+for(let i=0;i<r(10,99);i++){
 arrows.push(new Arrow(x,y))
 }
 }
+
+
+
+
+//cvs.addEventListener(msg[0], (e)=>{
+//ball(e.offsetX,e.offsetY)
+//console.log(__proto__)
+//console.log(e)
+//console.log(e.__proto__.changedTouches)
+//changedTouches
+
+//const vt=pageX;
+//console.log(e.pageX)
+//console.log(changedTouches)})
 
 
 // click Event
@@ -94,16 +139,22 @@ cvs.addEventListener('click', (e)=>{
 arrowsAdds(e.offsetX,e.offsetY)
 })
 
-// mouse Event
+// touch Event
 
-cvs.addEventListener('mousemove', (e)=>{
-arrowsAdds(e.offsetX,e.offsetY)
+cvs.addEventListener('touchstart', (e)=>{
+arrowsAdds(e.changedTouches[0].clientX,e.changedTouches[0].clientY)
+})
+cvs.addEventListener('touchmove', (e)=>{
+arrowsAdds(e.changedTouches[0].clientX,e.changedTouches[0].clientY)
+})
+cvs.addEventListener('touchend', (e)=>{
+arrowsAdds(e.changedTouches[0].clientX,e.changedTouches[0].clientY)
 })
 
 
 function gameLoop(){
 requestAnimationFrame(gameLoop)
-ctx.fillStyle='rgba(0,0,0,0.03)'
+ctx.fillStyle='rgba(0,0,0,0.01)'
 ctx.fillRect(0,0,cvs.width,cvs.height)
 //ctx.clearRect(0,0,cvs.width,cvs.height)
 arrows.forEach((arrow,index)=>{
@@ -112,7 +163,6 @@ if(arrow.size <= 0.3){
 arrows.splice(index, 1)}
 })
 }gameLoop()
-
 </script>
 </body>
 </html>
