@@ -17,18 +17,9 @@ margin:0;padding:0;
 width:100vw;height:100vh;
 background-color:#0D0C1E;
 }
-canvas{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-outline:2px black solid;
-}
-
 </style>
 </head>
 <body>
-<!-- <input type="color"/> -->
 <div id="mainBox">
 <canvas></canvas>
 </div>
@@ -67,13 +58,9 @@ ctx.arc(this.x,this.y,this.size,45,Math.PI * 2,false)
 ctx.fill()
 ctx.closePath();
 }
-
 update(){
 this.draw()
 }
-
-
-
 }
 
 
@@ -87,21 +74,16 @@ this.size=r(2,10)
 this.speed={x:Math.random() * 3 - 1.5 ,y:Math.random() * 3 - 1.5}
 }
 draw(){
-
 ctx.beginPath();
 ctx.fillStyle=this.color;
 ctx.arc(this.x,this.y,this.size,45,Math.PI * 2,false)
 ctx.fill()
 ctx.closePath();
 }
-
 update(){
 this.draw()
-
 this.x += this.speed.x
 this.y += this.speed.y
-
-
 if(this.size > 0.2){
 this.size += -0.1;
 }
@@ -118,19 +100,6 @@ arrows.push(new Arrow(x,y))
 }
 }
 
-
-
-
-//cvs.addEventListener(msg[0], (e)=>{
-//ball(e.offsetX,e.offsetY)
-//console.log(__proto__)
-//console.log(e)
-//console.log(e.__proto__.changedTouches)
-//changedTouches
-
-//const vt=pageX;
-//console.log(e.pageX)
-//console.log(changedTouches)})
 
 
 // click Event
@@ -156,7 +125,6 @@ function gameLoop(){
 requestAnimationFrame(gameLoop)
 ctx.fillStyle='rgba(0,0,0,0.01)'
 ctx.fillRect(0,0,cvs.width,cvs.height)
-//ctx.clearRect(0,0,cvs.width,cvs.height)
 arrows.forEach((arrow,index)=>{
 arrow.update()
 if(arrow.size <= 0.3){
