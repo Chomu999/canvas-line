@@ -11,24 +11,16 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 }
-
-div#mainBox{
-margin:0;padding:0;
-width:100vw;height:100vh;
-background-color:#0D0C1E;
-}
 </style>
 </head>
 <body>
-<div id="mainBox">
 <canvas></canvas>
-</div>
 <script>
 let cvs=document.querySelector('canvas');
 let ctx = cvs.getContext('2d');
 let screenSize=300;
-let mainW=innerWidth;
-let mainH=innerHeight;
+let mainW=window.innerWidth;
+let mainH=window.innerHeight;
 let hue=0;
 
 cvs.width=mainW;
@@ -99,8 +91,6 @@ for(let i=0;i<r(10,99);i++){
 arrows.push(new Arrow(x,y))
 }
 }
-
-
 
 // click Event
 
